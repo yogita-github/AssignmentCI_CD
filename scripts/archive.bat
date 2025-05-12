@@ -1,22 +1,26 @@
 @echo off
-echo ===============================
-echo Archiving build output...
-echo ===============================
 
-set OUTPUT_DIR=E:\Build Output\Username
-set RELEASE_DIR=E:\Release Data\Username
-set ZIP_NAME=release_%DATE:~-4%%DATE:~4,2%%DATE:~7,2%_%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%.zip
-set ZIP_NAME=%ZIP_NAME: =0%
-set FINAL_ZIP=%RELEASE_DIR%\%ZIP_NAME%
+:: Set paths for output and release directories
+set OUTPUT_DIR=D:\BuildOutput\yogitam
+set RELEASE_DIR=D:\ReleaseData\yogitam
 
-REM Create folders if not exist
+:: Check if the output directory exists, if not create it
 if not exist "%OUTPUT_DIR%" mkdir "%OUTPUT_DIR%"
+
+:: Check if the release directory exists, if not create it
 if not exist "%RELEASE_DIR%" mkdir "%RELEASE_DIR%"
 
-REM Copy output
-xcopy /Y /S target\*.jar "%OUTPUT_DIR%"
+:: Build the project (Assuming Maven is set up correctly)
+echo Running Maven Build...
+mvn clean package
 
-REM Zip using powershell
-powershell Compress-Archive -Path target\* -DestinationPath "%FINAL_ZIP%"
+:: Copy build output to OUTPUT_DIR
+echo Copying build output...
+xcopy /Y /S "target\*.jar" "%OUTPUT_DIR%"
 
-echo Archive created at: %FINAL_ZIP%
+:: Zip the final release folder and place it under RELEASE_DIR
+echo Zipping the build output...
+powershell Compress-Archive -Path "%OUTPUT_DIR%\*" -DestinationPath "%RELEASE_DIR%\release_%date:~10,4%-%date:~4,2%-%date:~7,2%.zip"
+
+echo Build and Release completed successfully.
+
