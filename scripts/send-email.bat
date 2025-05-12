@@ -8,7 +8,7 @@ set SUBJECT="Build Completed"
 set BODY="Build completed successfully. Please find attached build log."
 set TO="yvmahajan20@gmail.com"
 set ATTACHMENT=build.log
-set SMTP_SERVER="smtp.yourserver.com"
+set SMTP_SERVER="smtp.gmail.com"
 set FROM="yogitavm2001@gmail.com"
 
 powershell -Command ^
