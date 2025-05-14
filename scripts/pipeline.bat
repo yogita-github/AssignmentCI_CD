@@ -4,16 +4,29 @@ echo Starting Full CI/CD Pipeline
 echo ===============================
 
 call scripts\build.bat
-REM Ignore build failure and continue
-IF %ERRORLEVEL% NEQ 0 (
-    echo WARNING: Build failed but continuing pipeline...
+REM build.bat handles its own errors, no exit /b here
+
+call scripts\run.bat || (
+    echo ERROR: run.bat failed!
+    exit /b 1
 )
 
-call scripts\run.bat || exit /b
-call scripts\archive.bat || exit /b
-call scripts\cleanup.bat || exit /b
-call scripts\send-email.bat || exit /b
+call scripts\archive.bat || (
+    echo ERROR: archive.bat failed!
+    exit /b 1
+)
+
+call scripts\cleanup.bat || (
+    echo ERROR: cleanup.bat failed!
+    exit /b 1
+)
+
+call scripts\send-email.bat || (
+    echo ERROR: send-email.bat failed!
+    exit /b 1
+)
 
 echo ===============================
 echo Pipeline completed successfully!
 echo ===============================
+exit /b 0
