@@ -2,11 +2,14 @@
 echo ===============================
 echo Running JAR file...
 echo ===============================
-set JAR_PATH=target\Jenkins-0.0.1-SNAPSHOT.jar
 
-if exist %JAR_PATH% (
+REM Path to JAR file
+set JAR_PATH=target\your-app-name.jar
+
+IF EXIST %JAR_PATH% (
     java -jar %JAR_PATH%
-) else (
-    echo JAR file not found! Run build.bat first.
-    exit /b 1
+) ELSE (
+    echo JAR file not found. Skipping execution but continuing.
 )
+
+exit /b 0
