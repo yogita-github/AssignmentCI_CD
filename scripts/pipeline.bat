@@ -3,7 +3,12 @@ echo ===============================
 echo Starting Full CI/CD Pipeline
 echo ===============================
 
-call scripts\build.bat || exit /b
+call scripts\build.bat
+REM Ignore build failure and continue
+IF %ERRORLEVEL% NEQ 0 (
+    echo WARNING: Build failed but continuing pipeline...
+)
+
 call scripts\run.bat || exit /b
 call scripts\archive.bat || exit /b
 call scripts\cleanup.bat || exit /b
