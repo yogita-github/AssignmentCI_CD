@@ -1,10 +1,15 @@
 @echo off
-echo Starting Maven build...
+echo ===============================
+echo Building Maven project...
+echo ===============================
+
+REM Run Maven build
 mvn clean install
 
+REM Check if build failed
 IF %ERRORLEVEL% NEQ 0 (
-    echo WARNING: Maven build failed, but continuing...
-    REM Prevent script from failing the pipeline
+    echo WARNING: Maven build failed. Continuing anyway.
+    REM Prevent failure
     exit /b 0
 )
 
